@@ -1,92 +1,55 @@
 # MotoDrive L298N Solution
 
-双路直流电机驱动 L298N 方案
+⭐ 双路直流电机驱动 L298N 方案 ⭐
 
-## Getting started
+[![pipeline status](https://gitlab.soraharu.com/XiaoXi/MotoDrive-L298N-Solution/badges/master/pipeline.svg)](https://gitlab.soraharu.com/XiaoXi/MotoDrive-L298N-Solution/-/commits/master) [![Latest Release](https://gitlab.soraharu.com/XiaoXi/MotoDrive-L298N-Solution/-/badges/release.svg)](https://gitlab.soraharu.com/XiaoXi/MotoDrive-L298N-Solution/-/releases) [![vercel](https://vercelbadge.soraharu.com/?app=interactivehtmlbom)](https://interactivehtmlbom.soraharu.com/)
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+🔗 [GitLab (Homepage)](https://gitlab.soraharu.com/XiaoXi/MotoDrive-L298N-Solution) | 🔗 [OSHWHub](https://oshwhub.com/yanranxiaoxi/MotoDrive-L298N-Solution) | 🔗 [GitHub](https://github.com/yanranxiaoxi/MotoDrive-L298N-Solution)
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+![实拍图](https://downloadserver.soraharu.com:7000/MotoDrive%20L298N%20Solution/Image/Product_quality_8.jpg)
 
-## Add your files
+## 🤔 这是什么
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+这是一个使用 L298N 双 H 桥驱动芯片制作的双路直流电机驱动模块，使用 [立创 EDA](https://lceda.cn/) 进行开发。
 
-```
-cd existing_repo
-git remote add origin https://gitlab.soraharu.com/XiaoXi/MotoDrive-L298N-Solution.git
-git branch -M master
-git push -uf origin master
-```
+本设计采用 L298N 作为驱动芯片，板载 7805 线性稳压器，可以为其他传感器、主控提供不大于 1.5A 的 5V 直流供电，免去独立供电的烦恼。
 
-## Integrate with your tools
+## 🍭 使用说明
 
-- [ ] [Set up project integrations](https://gitlab.soraharu.com/XiaoXi/MotoDrive-L298N-Solution/-/settings/integrations)
+`H1`、`H2` 为通道片选跳线，如需使用该侧通道，需使用跳线帽短接该跳线。
 
-## Collaborate with your team
+`H9`、`H10` 靠近板边一侧为 L298N 通道 PWM 调速引脚引出，靠近芯片一侧的排针直接接通 7805 输出的 5V 电源，这意味着，如果你使用跳线帽短接 `H9` 或 `H10`，其所对应的通道的 PWM 引脚占空比将为 100%，即满功率/全速输出。一般情况下，请不要使用跳线帽，转而使用主控芯片的 PWM 信号来驱动调速。
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+`H3` 为 7805 线性稳压器的开关跳线，如短接，即为启用 7805 芯片从 VIN 网络取点并输出电流至 5V 网络。如果不使用 7805，你需要为本模块的 5V 网络提供外部的 5V 电源，以驱动 L298N 的低压逻辑区。请注意：如果 VIN 网络的电压高于 35V，请断开本跳线并转而使用外部 5V 供电，因为一般的 7805 芯片的最高耐压能力为 35V。
 
-## Test and Deploy
+本 PCB 设计已通过完整功能性测试，且已添加 [嘉立创](https://www.jlc.com/) SMT 定位孔，可直接进行 SMT 贴片生产。但请注意，本设计完整开源并遵循 [GNU General Public License v3.0](https://choosealicense.com/licenses/gpl-3.0/) 开源协议，开源作者不对作品的安全性、完整性作任何承诺，且不对因此产生的任何损失承担后果。
 
-Use the built-in continuous integration in GitLab.
+你可以使用本项目的 [焊接助手](https://interactivehtmlbom.soraharu.com/MotoDrive-L298N-Solution.html) 有效地提升手工焊接效率，本助手通过 [InteractiveHtmlBom](https://gitlab.soraharu.com/XiaoXi/InteractiveHtmlBom) 流水线自动化生成。
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+## 🏃 主要性能参数
 
-***
+- 电机驱动通道：双通道
+- 最大输入电压：9.6V
+- 单通道持续输出电流：1.35A
+- 单通道最大峰值输出电流：2A
+- 双通道持续输出电流：1A
 
-# Editing this README
+## 🛠️ 生产电路板
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!).  Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+本项目的 Gerber 文件可以从 [Releases](https://gitlab.soraharu.com/XiaoXi/MotoDrive-L298N-Solution/-/releases) 页面获取，并允许在开源许可范围内的商业目的使用。
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+*建议使用 [嘉立创](https://www.jlc.com/) 生产高品质电路板。
 
-## Name
-Choose a self-explaining name for your project.
+*It is recommended to use [JLCPCB](https://jlcpcb.com/) to produce high-quality circuit boards.
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+## ⚙️ 部署至 EasyEDA
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+1. 克隆本项目 [源代码](https://gitlab.soraharu.com/XiaoXi/MotoDrive-L298N-Solution/-/archive/master/MotoDrive-L298N-Solution-master.zip) 到本地
+2. 在立创 EDA 标准版编辑器中选择 `文件` -> `打开` -> `立创EDA...`
+3. 选择本项目源代码中的 `/EasyEDA/*.json` 文件并分别导入
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+## 📜 开源许可
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+基于 [GNU General Public License v3.0](https://choosealicense.com/licenses/gpl-3.0/) 许可进行开源。
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+本设计已在 [中国版权保护中心](https://www.ccopyright.com.cn/) 登记注册。
